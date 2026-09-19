@@ -13,12 +13,12 @@
 <body>
     <main class="app">
         <section class="greeting">
-            <h2 calss="title">
-                最近怎么样, <input type="text" id="name" placeholder="Name here"> <!--文本框id为name，待输入-->
+            <h2 class="title">
+                最近怎么样, <input type="text" id="name" placeholder="Name here" autocomplete="off"> <!--文本框id为name，待输入-->
             </h2>
         </section>
         <!--待办事项部分，要添加自己的待办事项-->
-        <section class="todo">
+        <section class="create-todo">
             <h3>创建一个待办清单</h3>
             <form id="new-todo-form">
 
@@ -29,7 +29,7 @@
                     id="content" 
                     placeholder="复习考研数学"/>
 
-                <h4>代办种类是</h4>
+                <h4>待办种类是</h4>
                 <div class="options">
                     <label><!--添加一个紧急事项按钮-->
                         <input 
@@ -37,7 +37,7 @@
                             name="category"
                             id="category1"
                             value="emergency" />
-                        <span class="category emergency"></span>
+                        <span class="bubble emergency"></span>
                         <div>紧急</div> 
                     </label>
 
@@ -47,7 +47,7 @@
                             name="category"
                             id="category2"
                             value="noemergency" />
-                        <span class="category noemergency"></span>
+                        <span class="bubble noemergency"></span>
                         <div>非紧急</div> 
                     </label>
                 </div>
@@ -60,7 +60,7 @@
             <h3>待办事项</h3>
 
             <div class="list" id="todo-list">
-                <div class="todo-item">
+                <div class="todo-item done">
                     <label>
                         <input type="checkbox" />
                         <span class="bubble emergency"></span>
