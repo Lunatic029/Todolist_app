@@ -35,6 +35,14 @@ window.addEventListener('load', () => {
     Tick();
     setInterval(Tick, 1000);
 
+    document.querySelector('#todo-list').addEventListener('focusout', e => {
+        const todoItem = e.target.closest('.todo-item');
+        if (!todoItem || todoItem.contains(e.relatedTarget)) return;   // 焦点还在本条内,比如点到"小时"输入框
+        if (!todoItem.classList.contains('editing')) return;
+
+        ExitEdit(todoItem);
+    })
+
 })
 
 function Pad(n) {
@@ -68,6 +76,24 @@ function Tick() {
     })
 
     if (changed) localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+function ExitEdit(todoItem) {
+    const todo = todoItem.todo;
+    const contentInput = todoItem.querySelector('.todo-content input');
+    const hoursInput = todoItem.querySelector('.todo-hours');
+
+    todoItem.classList.remove('editing');
+    contentInput.setAttribute('readonly', true);
+    todo.content = contentInput.value;
+
+    const hours = Number(hoursInput.value);
+    if (hours > 0) {
+        todo.remaining = Math.round(hours * 3600);
+    }
+    hoursInput.value = '';
+
+    localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 function DisplayTodos() {
@@ -157,29 +183,6 @@ function DisplayTodos() {
             todoItem.classList.add('editing');
             contentInput.removeAttribute('readonly');
             contentInput.focus();
-        })
-
-        todoItem.addEventListener('focusout', e => {
-            if (todoItem.contains(e.relatedTarget)) 
-                return;
-
-            if (!todoItem.isConnected) 
-                return;
-
-            if (!todoItem.classList.contains('editing')) 
-                return;
-
-            todoItem.classList.remove('editing');
-            contentInput.setAttribute('readonly', true);
-            todo.content = contentInput.value;
-
-            const hours = Number(hoursInput.value);
-            if (hours > 0) {
-                todo.remaining = Math.round(hours * 3600);
-            }
-            hoursInput.value = '';
-
-            localStorage.setItem('todos', JSON.stringify(todos));
         })
 
         deleteButton.addEventListener('click', e => {
